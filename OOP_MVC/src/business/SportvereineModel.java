@@ -1,11 +1,12 @@
 package business;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import fileCreatorsCzernicki.ConcreteReaderCsvCreatorCzernicki;
+import fileCreatorsCzernicki.ConcreteReaderTxtCreatorCzernicki;
+import fileCreatorsCzernicki.ReaderCreatorCzernicki;
+import fileCreatorsCzernicki.ReaderProductCzernicki;
 
 public class SportvereineModel {
 
@@ -22,14 +23,23 @@ public class SportvereineModel {
 
 	}
 
-	public void leseAusDatei(String typ) throws java.io.IOException {
-
-		BufferedReader ein = new BufferedReader(new FileReader("Sportverein.csv"));
-		String[] zeile = ein.readLine().split(";");
+	public void leseAusCsvDatei() throws java.io.IOException {
+		ReaderCreatorCzernicki readerCreator = new ConcreteReaderCsvCreatorCzernicki();
+		ReaderProductCzernicki readerProduct = readerCreator.factoryMethod();
+		String[] zeile = readerProduct.leseAusDatei();
 		this.sportverein = new Sportverein(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]),
 				zeile[4].split("_"));
-		ein.close();
+		readerProduct.schliesseDatei();
+	}
 
+	public void leseAusTxtDatei() throws java.io.IOException {
+		ReaderCreatorCzernicki readerCreator = new ConcreteReaderTxtCreatorCzernicki();
+		ReaderProductCzernicki readerProduct = readerCreator.factoryMethod();
+		String[] zeile = readerProduct.leseAusDatei();
+		this.sportverein = new Sportverein(zeile[0], zeile[1], Integer.parseInt(zeile[2]), Integer.parseInt(zeile[3]),
+				zeile[4].split("_"));
+		readerProduct.leseAusDatei();
+		readerProduct.schliesseDatei();
 	}
 
 	public void schreibeSportvereineInCsvDatei() throws IOException {

@@ -29,10 +29,11 @@ public class SportvereineControl {
 	public void leseAusDatei(String typ) {
 		try {
 			if ("csv".equals(typ)) {
-				model.leseAusDatei(typ);
-				view.zeigeInformationsfensterAn("Der Sportverein wurde gelesen!");
+				model.leseAusCsvDatei();
+				view.zeigeInformationsfensterAn("Der Sportverein wurde aus der .csv gelesen!");
 			} else {
-				view.zeigeInformationsfensterAn("Noch nicht implementiert!");
+				model.leseAusTxtDatei();
+				view.zeigeInformationsfensterAn("Der Sportverein wurde aus der .txt gelesen!");
 			}
 		} catch (IOException exc) {
 			view.zeigeFehlermeldungsfensterAn("IOException beim Lesen!");
